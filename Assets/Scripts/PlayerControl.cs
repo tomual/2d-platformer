@@ -66,6 +66,40 @@ public class PlayerControl : MonoBehaviour
 				bulletInstance.velocity = new Vector2(-speed, 0);
 			}
         }
+
+        // Fire1 = Shoot fireball
+        if (Input.GetButtonDown("Fire1"))
+        {
+            anim.SetTrigger("Shoot");
+
+            // If the player is facing right...
+            if (facingRight)
+            {
+                Vector3 position = new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
+                Rigidbody2D bulletInstance = Instantiate(rocket, position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
+                bulletInstance.velocity = new Vector2(speed, 0);
+            }
+            else
+            {
+                Vector3 position = new Vector3(transform.position.x - 0.5f, transform.position.y, transform.position.z);
+                Rigidbody2D bulletInstance = Instantiate(rocket, position, Quaternion.Euler(new Vector3(0, 0, 180f))) as Rigidbody2D;
+                bulletInstance.velocity = new Vector2(-speed, 0);
+            }
+        }
+
+        // Fire2 = Slash
+        if (Input.GetButtonDown("Fire2") && !isPlaying("slash"))
+        {
+            anim.SetTrigger("Slash");
+        }
+
+        if (isPlaying("slash"))
+        {
+            gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
+        } else
+        {
+            gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false;
+        }
     }
 
 
@@ -158,5 +192,15 @@ public class PlayerControl : MonoBehaviour
         else
             // Otherwise return this index.
             return i;
+    }
+
+
+    bool isPlaying(string stateName)
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
+                anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+            return true;
+        else
+            return false;
     }
 }
