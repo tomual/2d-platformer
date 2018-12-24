@@ -29,7 +29,6 @@ public class PlayerControl : MonoBehaviour
 
     void Awake()
     {
-        // Setting up references.
         groundCheck = transform.Find("groundCheck");
         anim = GetComponent<Animator>();
     }
@@ -194,13 +193,16 @@ public class PlayerControl : MonoBehaviour
             return i;
     }
 
-
     bool isPlaying(string stateName)
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
                 anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
             return true;
+        }
         else
+        {
             return false;
+        }
     }
 }

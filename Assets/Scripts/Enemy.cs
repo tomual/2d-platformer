@@ -5,9 +5,16 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     public int health;
+    public Rigidbody2D rb;
 
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -20,6 +27,17 @@ public class Enemy : MonoBehaviour {
     {
         Debug.Log("Ouch");
     }
+
+    bool isDead()
+    {
+        return health == 0;
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -34,15 +52,5 @@ public class Enemy : MonoBehaviour {
                 Die();
             }
         }
-    }
-
-    bool isDead()
-    {
-        return health == 0;
-    }
-
-    void Die()
-    {
-        Destroy(gameObject);
     }
 }
