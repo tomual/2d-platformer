@@ -205,4 +205,15 @@ public class PlayerControl : MonoBehaviour
             return false;
         }
     }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.name == "Enemy")
+        {
+            Debug.Log("Flinch");
+        }
+
+    }
 }

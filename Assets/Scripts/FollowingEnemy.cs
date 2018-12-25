@@ -35,6 +35,15 @@ public class FollowingEnemy : Enemy {
             }
         }
 
+        if (isPlaying("slash"))
+        {
+            gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false;
+        }
+
     }
 
     private void FixedUpdate()
@@ -55,9 +64,17 @@ public class FollowingEnemy : Enemy {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log(collision.gameObject.name);
-
+        if (collision.gameObject.name == "Player")
+        {
+            anim.SetTrigger("Attack");
+        }
 
         rb.mass = 10;
+    }
+
+    void Attack()
+    {
+
     }
 
     void Flip()

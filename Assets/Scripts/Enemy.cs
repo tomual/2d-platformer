@@ -5,11 +5,16 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     public int health;
+
+    [HideInInspector]
     public Rigidbody2D rb;
+    [HideInInspector]
+    public Animator anim;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
 
@@ -51,6 +56,19 @@ public class Enemy : MonoBehaviour {
             {
                 Die();
             }
+        }
+    }
+
+    public bool isPlaying(string stateName)
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
+                anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
