@@ -66,7 +66,11 @@ public class FollowingEnemy : Enemy {
         Debug.Log(collision.gameObject.name);
         if (collision.gameObject.name == "Player")
         {
-            anim.SetTrigger("Attack");
+            if (!isPlaying("attack_enemy"))
+            {
+                anim.SetTrigger("Attack");
+            }
+            
         }
 
         rb.mass = 10;

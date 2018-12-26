@@ -23,6 +23,7 @@ public class PlayerControl : MonoBehaviour
     private bool grounded = false;          // Whether or not the player is grounded.
     private Animator anim;                  // Reference to the player's animator component.
 
+    public Rigidbody2D rb;
     public Rigidbody2D rocket;
     public float speed = 20f;				// The speed the rocket will fire at.
 
@@ -31,6 +32,8 @@ public class PlayerControl : MonoBehaviour
     {
         groundCheck = transform.Find("groundCheck");
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+
     }
 
 
@@ -209,10 +212,26 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        float thrustY = 500;
+        float thrustX = 1000;
+
+
         Debug.Log(collision.gameObject.name);
         if (collision.gameObject.name == "Enemy")
         {
-            Debug.Log("Flinch");
+            float enemyXPosition = collision.gameObject.transform.position.x;
+
+            // Vector2 vector = new Vector2(transform.right * thrustX, transform.up * thrustY);
+
+            rb.AddForce(transform.up * thrustY);
+            if (transform.position.x > enemyXPosition)
+            {
+                rb.AddForce(transform.right * thrustX);
+            } else
+            {
+                rb.AddForce(transform.right * -thrustX);
+            }
+
         }
 
     }
