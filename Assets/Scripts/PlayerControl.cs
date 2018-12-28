@@ -27,6 +27,8 @@ public class PlayerControl : MonoBehaviour
     public Rigidbody2D rocket;
     public float speed = 20f;				// The speed the rocket will fire at.
 
+    float lastKnockback = -2;
+
 
     void Awake()
     {
@@ -44,7 +46,7 @@ public class PlayerControl : MonoBehaviour
 
         // If the jump button is pressed and the player is grounded then the player should jump.
         anim.SetBool("Grounded", grounded);
-        if (Input.GetButtonDown("Jump") && grounded)
+        if (Input.GetButtonDown("Jump") && grounded && isBeingKnockedBack())
         {
             jump = true;
         }
@@ -209,30 +211,54 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+        
+    //    float thrustY = 350;
+    //    float thrustX = 550;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    //    if (collision.gameObject.name == "Enemy" && !isBeingKnockedBack())
+    //    {
+    //        float enemyXPosition = collision.gameObject.transform.position.x;
+    //        lastKnockback = Time.time;
+
+    //        //rb.AddForce(transform.up * thrustY);
+    //        if (transform.position.x > enemyXPosition)
+    //        {
+    //            rb.AddForce(new Vector2(thrustX, thrustY));
+    //        } else
+    //        {
+    //            rb.AddForce(new Vector2(-thrustX, thrustY));
+    //        }
+    //        Debug.Log(Time.time);
+    //    }
+    //}
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        float thrustY = 500;
-        float thrustX = 1000;
+        float thrustY = 350;
+        float thrustX = 550;
 
-
-        Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.name == "Enemy")
+        if (collision.gameObject.name == "EnemyWeapon" && !isBeingKnockedBack())
         {
             float enemyXPosition = collision.gameObject.transform.position.x;
+            lastKnockback = Time.time;
 
-            // Vector2 vector = new Vector2(transform.right * thrustX, transform.up * thrustY);
-
-            rb.AddForce(transform.up * thrustY);
+            //rb.AddForce(transform.up * thrustY);
             if (transform.position.x > enemyXPosition)
             {
-                rb.AddForce(transform.right * thrustX);
-            } else
-            {
-                rb.AddForce(transform.right * -thrustX);
+                rb.AddForce(new Vector2(-thrustX, thrustY));
             }
-
+            else 
+            {
+                rb.AddForce(new Vector2(thrustX, thrustY));
+            }
+            Debug.Log(Time.time);
         }
+    }
 
+    private bool isBeingKnockedBack()
+    {
+        return Time.time - lastKnockback < 1;
     }
 }

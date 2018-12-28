@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowingEnemy : Enemy {
-    public float moveForce = 365f;          // Amount of force added to move the player left and right.
-    public float maxSpeed = 1f;             // The fastest the player can travel in the x axis.
-    float h = 1;
+    private float moveForce = 220f;          // Amount of force added to move the player left and right.
+    private float maxSpeed = 0.5f;             // The fastest the player can travel in the x axis.
+    float h = 0.5f;
     public bool facingRight = false;
+    private float attackStart = 0;
 
     void Start () {
 		
@@ -21,21 +22,21 @@ public class FollowingEnemy : Enemy {
 
         if (myXPosition > playerXPosition)
         {
-            h = -1;
+            h = -0.5f;
             if (facingRight)
             {
                 Flip();
             }
         } else
         {
-            h = 1;
+            h = 0.5f;
             if (!facingRight)
             {
                 Flip();
             }
         }
 
-        if (isPlaying("slash"))
+        if (isPlaying("attack_enemy") && Time.time - attackStart > 0.5)
         {
             gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
         }
@@ -48,32 +49,39 @@ public class FollowingEnemy : Enemy {
 
     private void FixedUpdate()
     {
-        if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
+        if (!isPlaying("attack_enemy"))
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
-        }
-            
+            if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
+            {
+                GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
+            }
 
-        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeed)
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
-        }
+            if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeed)
+            {
+                GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+            }
 
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         Debug.Log(collision.gameObject.name);
         if (collision.gameObject.name == "Player")
         {
             if (!isPlaying("attack_enemy"))
             {
+                attackStart = Time.time;
                 anim.SetTrigger("Attack");
             }
-            
+            rb.mass = 10;
         }
 
-        rb.mass = 10;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        rb.mass = 1.4f;
     }
 
     void Attack()
