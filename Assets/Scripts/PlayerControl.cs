@@ -9,8 +9,8 @@ public class PlayerControl : MonoBehaviour
     public bool jump = false;               // Condition for whether the player should jump.
 
 
-    public float moveForce = 365f;          // Amount of force added to move the player left and right.
-    public float maxSpeed = 5f;             // The fastest the player can travel in the x axis.
+    public float moveForce = 300;          // Amount of force added to move the player left and right.
+    public float maxSpeed = 2;             // The fastest the player can travel in the x axis.
     public AudioClip[] jumpClips;           // Array of clips for when the player jumps.
     public float jumpForce = 1000f;         // Amount of force added when the player jumps.
     public AudioClip[] taunts;              // Array of clips for when the player taunts.
@@ -27,6 +27,8 @@ public class PlayerControl : MonoBehaviour
     public Rigidbody2D rocket;
     public float speed = 20f;				// The speed the rocket will fire at.
 
+    private GameObject weapon;
+
     float lastKnockback = -2;
 
 
@@ -35,7 +37,7 @@ public class PlayerControl : MonoBehaviour
         groundCheck = transform.Find("groundCheck");
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-
+        weapon = GameObject.FindGameObjectWithTag("Weapon");
     }
 
 
@@ -46,7 +48,7 @@ public class PlayerControl : MonoBehaviour
 
         // If the jump button is pressed and the player is grounded then the player should jump.
         anim.SetBool("Grounded", grounded);
-        if (Input.GetButtonDown("Jump") && grounded && isBeingKnockedBack())
+        if (Input.GetButtonDown("Jump") && grounded && !isBeingKnockedBack())
         {
             jump = true;
         }
@@ -99,10 +101,10 @@ public class PlayerControl : MonoBehaviour
 
         if (isPlaying("slash"))
         {
-            gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
+            weapon.SetActive(true);
         } else
         {
-            gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false;
+            weapon.SetActive(false);
         }
     }
 
@@ -117,22 +119,31 @@ public class PlayerControl : MonoBehaviour
 
         // If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeed yet...
         if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
+        {
             // ... add a force to the player.
             GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
+        }
+
+        if (h == 0 && !isBeingKnockedBack())
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
+        }
 
         // If the player's horizontal velocity is greater than the maxSpeed...
         if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeed)
+        {
             // ... set the player's velocity to the maxSpeed in the x axis.
             GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
-        // If the input is moving the player right and the player is facing left...
+        }
         if (h > 0 && !facingRight)
-            // ... flip the player.
+        {
             Flip();
-        // Otherwise if the input is moving the player left and the player is facing right...
+        }
         else if (h < 0 && facingRight)
-            // ... flip the player.
+        {
             Flip();
+        }
 
         // If the player should jump...
         if (jump)
@@ -259,6 +270,6 @@ public class PlayerControl : MonoBehaviour
 
     private bool isBeingKnockedBack()
     {
-        return Time.time - lastKnockback < 1;
+        return Time.time - lastKnockback < 0.3;
     }
 }

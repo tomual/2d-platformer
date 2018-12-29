@@ -8,10 +8,11 @@ public class FollowingEnemy : Enemy {
     float h = 0.5f;
     public bool facingRight = false;
     private float attackStart = 0;
+    private GameObject weapon;
 
     void Start () {
-		
-	}
+        weapon = gameObject.transform.GetChild(0).gameObject;
+    }
 	
 	void Update () {
 
@@ -38,11 +39,11 @@ public class FollowingEnemy : Enemy {
 
         if (isPlaying("attack_enemy") && Time.time - attackStart > 0.5)
         {
-            gameObject.GetComponentInChildren<BoxCollider2D>().enabled = true;
+            weapon.SetActive(true);
         }
         else
         {
-            gameObject.GetComponentInChildren<BoxCollider2D>().enabled = false;
+            weapon.SetActive(false);
         }
 
     }
@@ -71,10 +72,11 @@ public class FollowingEnemy : Enemy {
         {
             if (!isPlaying("attack_enemy"))
             {
+                GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
                 attackStart = Time.time;
                 anim.SetTrigger("Attack");
             }
-            rb.mass = 10;
+            rb.mass = 1.4f;
         }
 
     }
