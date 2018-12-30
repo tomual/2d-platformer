@@ -61,7 +61,11 @@ public class FollowingEnemy : Enemy {
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
             }
-
+            rb.mass = 1.4f;
+        }
+        else
+        {
+            rb.mass = 10000;
         }
     }
 
@@ -76,14 +80,7 @@ public class FollowingEnemy : Enemy {
                 attackStart = Time.time;
                 anim.SetTrigger("Attack");
             }
-            rb.mass = 1.4f;
         }
-
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        rb.mass = 1.4f;
     }
 
     void Attack()
