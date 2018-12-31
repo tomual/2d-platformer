@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class PlayerControl : MonoBehaviour
     private GameObject weapon;
 
     float lastKnockback = -2;
+    bool invincible = false;
 
 
     void Awake()
@@ -106,6 +108,11 @@ public class PlayerControl : MonoBehaviour
         {
             weapon.SetActive(false);
         }
+
+        if (invincible)
+        {
+            blink();
+        }
     }
 
 
@@ -171,44 +178,6 @@ public class PlayerControl : MonoBehaviour
         transform.localScale = theScale;
     }
 
-
-    public IEnumerator Taunt()
-    {
-        // Check the random chance of taunting.
-        float tauntChance = Random.Range(0f, 100f);
-        if (tauntChance > tauntProbability)
-        {
-            // Wait for tauntDelay number of seconds.
-            yield return new WaitForSeconds(tauntDelay);
-
-            // If there is no clip currently playing.
-            if (!GetComponent<AudioSource>().isPlaying)
-            {
-                // Choose a random, but different taunt.
-                tauntIndex = TauntRandom();
-
-                // Play the new taunt.
-                GetComponent<AudioSource>().clip = taunts[tauntIndex];
-                GetComponent<AudioSource>().Play();
-            }
-        }
-    }
-
-
-    int TauntRandom()
-    {
-        // Choose a random index of the taunts array.
-        int i = Random.Range(0, taunts.Length);
-
-        // If it's the same as the previous taunt...
-        if (i == tauntIndex)
-            // ... try another random taunt.
-            return TauntRandom();
-        else
-            // Otherwise return this index.
-            return i;
-    }
-
     bool isPlaying(string stateName)
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
@@ -250,10 +219,11 @@ public class PlayerControl : MonoBehaviour
         float thrustY = 350;
         float thrustX = 550;
 
-        if (collision.gameObject.name == "EnemyWeapon" && !isBeingKnockedBack())
+        if (collision.gameObject.name == "EnemyWeapon" && !isBeingKnockedBack() && !invincible)
         {
             float enemyXPosition = collision.gameObject.transform.position.x;
             lastKnockback = Time.time;
+            invincible = true;
 
             //rb.AddForce(transform.up * thrustY);
             if (transform.position.x > enemyXPosition)
@@ -264,12 +234,33 @@ public class PlayerControl : MonoBehaviour
             {
                 rb.AddForce(new Vector2(thrustX, thrustY));
             }
-            Debug.Log(Time.time);
         }
     }
 
     private bool isBeingKnockedBack()
     {
         return Time.time - lastKnockback < 0.3;
+    }
+
+    private void blink()
+    {
+        string time = Time.time.ToString("0.0");
+        char milliseconds = time.ToCharArray()[time.Length - 1];
+        bool beTransparent = int.Parse(milliseconds.ToString()) % 3 == 0;
+
+        if (beTransparent)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.5f);
+
+        } else
+        {
+            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
+        }
+
+        if (Time.time - lastKnockback > 1)
+        {
+            invincible = false;
+        }
+
     }
 }
