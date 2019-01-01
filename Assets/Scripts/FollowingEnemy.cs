@@ -39,6 +39,7 @@ public class FollowingEnemy : Enemy {
 
         if (isPlaying("attack_enemy") && Time.time - attackStart > 0.5)
         {
+            rb.mass = 10000;
             weapon.SetActive(true);
         }
         else
@@ -61,17 +62,11 @@ public class FollowingEnemy : Enemy {
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
             }
-            rb.mass = 1.4f;
-        }
-        else
-        {
-            rb.mass = 10000;
         }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.name == "Player")
         {
             if (!isPlaying("attack_enemy"))
@@ -80,6 +75,11 @@ public class FollowingEnemy : Enemy {
                 attackStart = Time.time;
                 anim.SetTrigger("Attack");
             }
+            rb.mass = 10000;
+        }
+        else
+        {
+            rb.mass = 1.4f;
         }
     }
 

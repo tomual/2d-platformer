@@ -191,29 +191,6 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    //private void OnCollisionStay2D(Collision2D collision)
-    //{
-        
-    //    float thrustY = 350;
-    //    float thrustX = 550;
-
-    //    if (collision.gameObject.name == "Enemy" && !isBeingKnockedBack())
-    //    {
-    //        float enemyXPosition = collision.gameObject.transform.position.x;
-    //        lastKnockback = Time.time;
-
-    //        //rb.AddForce(transform.up * thrustY);
-    //        if (transform.position.x > enemyXPosition)
-    //        {
-    //            rb.AddForce(new Vector2(thrustX, thrustY));
-    //        } else
-    //        {
-    //            rb.AddForce(new Vector2(-thrustX, thrustY));
-    //        }
-    //        Debug.Log(Time.time);
-    //    }
-    //}
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         float thrustY = 350;
@@ -259,6 +236,7 @@ public class PlayerControl : MonoBehaviour
 
         if (Time.time - lastKnockback > 1)
         {
+            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
             invincible = false;
         }
 
