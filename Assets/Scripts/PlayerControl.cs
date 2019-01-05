@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerControl : MonoBehaviour
     public AudioClip[] taunts;              // Array of clips for when the player taunts.
     public float tauntProbability = 50f;    // Chance of a taunt happening.
     public float tauntDelay = 1f;           // Delay for when the taunt should happen.
+    public Slider healthSlider;
 
 
     private int tauntIndex;                 // The index of the taunts array indicating the most recent taunt.
@@ -201,6 +203,11 @@ public class PlayerControl : MonoBehaviour
             float enemyXPosition = collision.gameObject.transform.position.x;
             lastKnockback = Time.time;
             invincible = true;
+            healthSlider.value -= 1;
+            if (IsDead())
+            {
+                Die();
+            }
 
             //rb.AddForce(transform.up * thrustY);
             if (transform.position.x > enemyXPosition)
@@ -212,6 +219,16 @@ public class PlayerControl : MonoBehaviour
                 rb.AddForce(new Vector2(thrustX, thrustY));
             }
         }
+    }
+
+    private bool IsDead()
+    {
+        return healthSlider.value == 0;
+    }
+
+    private void Die()
+    {
+        Debug.Log("It's time to die");
     }
 
     private bool isBeingKnockedBack()
