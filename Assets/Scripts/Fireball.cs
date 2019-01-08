@@ -24,6 +24,7 @@ public class Fireball : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        Debug.Log(col.gameObject.name);
         // Instantiate the explosion and destroy the rocket.
         OnExplode();
         Destroy(gameObject);

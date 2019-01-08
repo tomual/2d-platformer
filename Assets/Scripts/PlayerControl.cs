@@ -77,26 +77,6 @@ public class PlayerControl : MonoBehaviour
 			}
         }
 
-        // Fire1 = Shoot fireball
-        if (Input.GetButtonDown("Fire1"))
-        {
-            anim.SetTrigger("Shoot");
-
-            // If the player is facing right...
-            if (facingRight)
-            {
-                Vector3 position = new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
-                Rigidbody2D bulletInstance = Instantiate(rocket, position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
-                bulletInstance.velocity = new Vector2(speed, 0);
-            }
-            else
-            {
-                Vector3 position = new Vector3(transform.position.x - 0.5f, transform.position.y, transform.position.z);
-                Rigidbody2D bulletInstance = Instantiate(rocket, position, Quaternion.Euler(new Vector3(0, 0, 180f))) as Rigidbody2D;
-                bulletInstance.velocity = new Vector2(-speed, 0);
-            }
-        }
-
         // Fire2 = Slash
         if (Input.GetButtonDown("Fire2") && !isPlaying("slash"))
         {
