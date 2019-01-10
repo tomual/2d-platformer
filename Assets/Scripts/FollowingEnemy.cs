@@ -95,4 +95,17 @@ public class FollowingEnemy : Enemy {
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+
+    public override void TakeDamage()
+    {
+        float thrustY = 350;
+        --health;
+        Debug.Log("FollowingEnemy Ouch");
+        Debug.Log(health);
+        rb.AddForce(new Vector2(0, thrustY));
+        if (isDead())
+        {
+            Die();
+        }
+    }
 }

@@ -28,17 +28,23 @@ public class Enemy : MonoBehaviour {
 		
 	}
 
-    public void TakeDamage()
+    public virtual void TakeDamage()
     {
-        Debug.Log("Ouch");
+        --health;
+        Debug.Log("Enemy Ouch");
+        Debug.Log(health);
+        if (isDead())
+        {
+            Die();
+        }
     }
 
-    bool isDead()
+    public bool isDead()
     {
         return health == 0;
     }
 
-    void Die()
+    public void Die()
     {
         Destroy(gameObject);
     }
@@ -49,13 +55,7 @@ public class Enemy : MonoBehaviour {
         Debug.Log(col.gameObject.name);
         if (col.gameObject.name == "Weapon")
         {
-            --health;
-            Debug.Log("Ouch");
-            Debug.Log(health);
-            if (isDead())
-            {
-                Die();
-            }
+            TakeDamage();
         }
     }
 
