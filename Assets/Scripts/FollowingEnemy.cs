@@ -9,6 +9,7 @@ public class FollowingEnemy : Enemy {
     public bool facingRight = false;
     private float attackStart = 0;
     private GameObject weapon;
+    private float spriteAlpha = 1f;
 
     void Start () {
         weapon = gameObject.transform.GetChild(0).gameObject;
@@ -18,40 +19,54 @@ public class FollowingEnemy : Enemy {
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        float myXPosition = gameObject.transform.position.x;
-        float playerXPosition = player.transform.position.x;
-
-        if (myXPosition > playerXPosition)
+        if (!isDead())
         {
-            h = -0.5f;
-            if (facingRight)
+            float myXPosition = gameObject.transform.position.x;
+            float playerXPosition = player.transform.position.x;
+
+            if (myXPosition > playerXPosition)
             {
-                Flip();
+                h = -0.5f;
+                if (facingRight)
+                {
+                    Flip();
+                }
             }
-        } else
-        {
-            h = 0.5f;
-            if (!facingRight)
+            else
             {
-                Flip();
+                h = 0.5f;
+                if (!facingRight)
+                {
+                    Flip();
+                }
+            }
+
+            if (isPlaying("attack_enemy") && Time.time - attackStart > 0.5)
+            {
+                rb.mass = 10000;
+                weapon.SetActive(true);
+            }
+            else
+            {
+                weapon.SetActive(false);
             }
         }
 
-        if (isPlaying("attack_enemy") && Time.time - attackStart > 0.5)
+        if (isDead())
         {
-            rb.mass = 10000;
-            weapon.SetActive(true);
+            Debug.Log("fade dammit");
+            spriteAlpha -= 0.05f;
+            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, spriteAlpha);
+            if (spriteAlpha <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
-        else
-        {
-            weapon.SetActive(false);
-        }
-
     }
 
     private void FixedUpdate()
     {
-        if (!isPlaying("attack_enemy"))
+        if (!isPlaying("attack_enemy") && !isDead())
         {
             if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
             {
@@ -67,19 +82,22 @@ public class FollowingEnemy : Enemy {
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (!isDead())
         {
-            if (!isPlaying("attack_enemy"))
+            if (collision.gameObject.name == "Player")
             {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
-                attackStart = Time.time;
-                anim.SetTrigger("Attack");
+                if (!isPlaying("attack_enemy"))
+                {
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
+                    attackStart = Time.time;
+                    anim.SetTrigger("Attack");
+                }
+                rb.mass = 10000;
             }
-            rb.mass = 10000;
-        }
-        else
-        {
-            rb.mass = 1.4f;
+            else
+            {
+                rb.mass = 1.4f;
+            }
         }
     }
 

@@ -25,7 +25,6 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
     public virtual void TakeDamage()
@@ -46,16 +45,21 @@ public class Enemy : MonoBehaviour {
 
     public void Die()
     {
-        Destroy(gameObject);
+        anim.SetBool("Dead", true);
+        rb.mass = 10000;
+        //Destroy(gameObject);
     }
 
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log(col.gameObject.name);
-        if (col.gameObject.name == "Weapon")
+        if (!isDead())
         {
-            TakeDamage();
+            Debug.Log(col.gameObject.name);
+            if (col.gameObject.name == "Weapon")
+            {
+                TakeDamage();
+            }
         }
     }
 
