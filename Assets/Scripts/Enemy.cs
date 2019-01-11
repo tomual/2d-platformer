@@ -47,7 +47,6 @@ public class Enemy : MonoBehaviour {
     {
         anim.SetBool("Dead", true);
         rb.mass = 10000;
-        //Destroy(gameObject);
     }
 
 

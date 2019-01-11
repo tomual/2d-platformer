@@ -35,6 +35,10 @@ public class PlayerControl : MonoBehaviour
     float lastKnockback = -2;
     bool invincible = false;
 
+    float deathTime;
+
+    UIController uiController;
+
 
     void Awake()
     {
@@ -42,11 +46,17 @@ public class PlayerControl : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         weapon = GameObject.FindGameObjectWithTag("Weapon");
+        uiController = GameObject.FindGameObjectWithTag("UIController").GetComponent<UIController>();
     }
 
 
     void Update()
     {
+
+        if (IsDead())
+        {
+            return;
+        }
         // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
         grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
@@ -100,6 +110,19 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (IsDead())
+        {
+            if (Time.time - deathTime > 1)
+            {
+                anim.SetBool("Dead", true);
+            }
+            if (Time.time - deathTime > 2)
+            {
+                Debug.Log("SHow de thing");
+                uiController.ShowDeathScreen();
+            }
+            return;
+        }
         // Cache the horizontal input.
         float h = Input.GetAxis("Horizontal");
 
@@ -189,7 +212,6 @@ public class PlayerControl : MonoBehaviour
                 Die();
             }
 
-            //rb.AddForce(transform.up * thrustY);
             if (transform.position.x > enemyXPosition)
             {
                 rb.AddForce(new Vector2(-thrustX, thrustY));
@@ -209,6 +231,7 @@ public class PlayerControl : MonoBehaviour
     private void Die()
     {
         Debug.Log("It's time to die");
+        deathTime = Time.time;
     }
 
     private bool isBeingKnockedBack()

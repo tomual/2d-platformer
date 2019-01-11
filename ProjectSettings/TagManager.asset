@@ -8,6 +8,8 @@ TagManager:
   - HealthText
   - PauseScreen
   - MainUI
+  - DeathScreen
+  - UIController
   layers:
   - Default
   - TransparentFX
