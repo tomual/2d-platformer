@@ -57,6 +57,8 @@ public class FollowingEnemy : Enemy {
             Debug.Log("fade dammit");
             spriteAlpha -= 0.05f;
             GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, spriteAlpha);
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            GetComponent<CapsuleCollider2D>().enabled = false;
             if (spriteAlpha <= 0)
             {
                 Destroy(gameObject);
