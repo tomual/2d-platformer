@@ -6,9 +6,12 @@ public class UIController : MonoBehaviour {
 
     private GameObject pauseScreen;
     private GameObject deathScreen;
+    private GameObject fadeScreen;
 
     private bool fadeDeathScreen = false;
     private float deathScreenAlpha = 0;
+    private bool fadeInInProgress = true;
+    private float fadeScreenAlpha = 1;
 
     void Start()
     {
@@ -16,10 +19,22 @@ public class UIController : MonoBehaviour {
         pauseScreen.SetActive(false);
         deathScreen = GameObject.FindGameObjectWithTag("DeathScreen");
         deathScreen.SetActive(false);
+        fadeScreen = GameObject.FindGameObjectWithTag("FadeScreen");
+        fadeScreen.GetComponent<CanvasGroup>().alpha = fadeScreenAlpha;
     }
 
     void Update()
     {
+        if (fadeInInProgress)
+        {
+            fadeScreenAlpha -= 0.02f;
+            fadeScreen.GetComponent<CanvasGroup>().alpha = fadeScreenAlpha;
+            if (fadeScreenAlpha <= 0)
+            {
+                fadeInInProgress = false;
+            }
+        }
+
         if (Input.GetKeyUp("escape"))
         {
             if(pauseScreen.activeInHierarchy)
