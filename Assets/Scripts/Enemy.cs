@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
@@ -10,11 +11,19 @@ public class Enemy : MonoBehaviour {
     public Rigidbody2D rb;
     [HideInInspector]
     public Animator anim;
+    [HideInInspector]
+    public SpriteRenderer sprite;
+    public Material defaultMaterial;
+    public Material whiteMaterial;
+    public float lastTookDamage = 0;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+        defaultMaterial = sprite.material;
+        whiteMaterial = (Material) AssetDatabase.LoadAssetAtPath("Assets/Sprites/WhiteMaterial.mat", typeof(Material));
     }
 
 
@@ -24,14 +33,27 @@ public class Enemy : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	}
+	void Update ()
+    {
+    }
+
+    private void LateUpdate()
+    {
+        if (Time.time - lastTookDamage >= 0.1f)
+        {
+            sprite.material = defaultMaterial;
+        }
+        
+
+    }
 
     public virtual void TakeDamage()
     {
         --health;
         Debug.Log("Enemy Ouch");
         Debug.Log(health);
+        sprite.material = whiteMaterial;
+        lastTookDamage = Time.time;
         if (isDead())
         {
             Die();

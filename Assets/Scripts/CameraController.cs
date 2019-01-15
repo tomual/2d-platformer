@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraController : MonoBehaviour
 {
     public GameObject player;
-    private bool onEdge = false;
+    private bool disabled = false;
 
     void Start()
     {
@@ -13,14 +13,14 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!onEdge)
+        if (!disabled)
         {
             transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
         }
     }
 
-    public void setOnEdge(bool onEdge)
+    public void setCameraStop(bool disabled)
     {
-        this.onEdge = onEdge;
+        this.disabled = disabled;
     }
 }

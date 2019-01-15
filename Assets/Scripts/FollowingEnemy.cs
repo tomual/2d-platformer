@@ -54,7 +54,6 @@ public class FollowingEnemy : Enemy {
 
         if (isDead())
         {
-            Debug.Log("fade dammit");
             spriteAlpha -= 0.05f;
             GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, spriteAlpha);
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
@@ -120,9 +119,9 @@ public class FollowingEnemy : Enemy {
     {
         float thrustY = 350;
         --health;
-        Debug.Log("FollowingEnemy Ouch");
-        Debug.Log(health);
         rb.AddForce(new Vector2(0, thrustY));
+        sprite.material = whiteMaterial;
+        lastTookDamage = Time.time;
         if (isDead())
         {
             Die();
