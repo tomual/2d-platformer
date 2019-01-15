@@ -4,15 +4,23 @@ using System.Collections;
 public class CameraController : MonoBehaviour
 {
     public GameObject player;
-    private Vector3 offset;
+    private bool onEdge = false;
 
     void Start()
     {
-        offset = transform.position - player.transform.position;
+
     }
 
     void LateUpdate()
     {
-        transform.position = new Vector3(player.transform.position.x,transform.position.y, transform.position.z);
+        if (!onEdge)
+        {
+            transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+        }
+    }
+
+    public void setOnEdge(bool onEdge)
+    {
+        this.onEdge = onEdge;
     }
 }
