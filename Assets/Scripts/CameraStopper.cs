@@ -16,11 +16,17 @@ public class CameraStopper : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        cameraController.setCameraStop(true);
+        if (collision.name == "Player")
+        {
+            cameraController.setCameraStop(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        cameraController.setCameraStop(false);
+        if (collision.name == "Player")
+        {
+            cameraController.setCameraStop(false);
+        }
     }
 }

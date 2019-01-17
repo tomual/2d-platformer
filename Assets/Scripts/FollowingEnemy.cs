@@ -15,43 +15,13 @@ public class FollowingEnemy : Enemy {
         weapon = gameObject.transform.GetChild(0).gameObject;
     }
 	
-	void Update () {
-
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
+	void Update ()
+    {
         if (!isDead())
         {
-            float myXPosition = gameObject.transform.position.x;
-            float playerXPosition = player.transform.position.x;
-
-            if (myXPosition > playerXPosition)
-            {
-                h = -0.5f;
-                if (facingRight)
-                {
-                    Flip();
-                }
-            }
-            else
-            {
-                h = 0.5f;
-                if (!facingRight)
-                {
-                    Flip();
-                }
-            }
-
-            if (isPlaying("attack_enemy") && Time.time - attackStart > 0.5)
-            {
-                rb.mass = 10000;
-                weapon.SetActive(true);
-            }
-            else
-            {
-                weapon.SetActive(false);
-            }
+            UpdateDirection();
+            UpdateWeapon();
         }
-
         if (isDead())
         {
             spriteAlpha -= 0.05f;
@@ -67,6 +37,12 @@ public class FollowingEnemy : Enemy {
 
     private void FixedUpdate()
     {
+        Move();
+    }
+
+
+    public void Move()
+    {
         if (!isPlaying("attack_enemy") && !isDead())
         {
             if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
@@ -78,6 +54,44 @@ public class FollowingEnemy : Enemy {
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
             }
+        }
+    }
+
+    public void UpdateDirection()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        float myXPosition = gameObject.transform.position.x;
+        float playerXPosition = player.transform.position.x;
+
+        if (myXPosition > playerXPosition)
+        {
+            h = -0.5f;
+            if (facingRight)
+            {
+                Flip();
+            }
+        }
+        else
+        {
+            h = 0.5f;
+            if (!facingRight)
+            {
+                Flip();
+            }
+        }
+
+    }
+
+    public void UpdateWeapon()
+    {
+        if (isPlaying("attack_enemy") && Time.time - attackStart > 0.5)
+        {
+            rb.mass = 10000;
+            weapon.SetActive(true);
+        }
+        else
+        {
+            weapon.SetActive(false);
         }
     }
 

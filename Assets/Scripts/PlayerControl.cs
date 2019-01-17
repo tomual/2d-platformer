@@ -212,13 +212,16 @@ public class PlayerControl : MonoBehaviour
                 Die();
             }
 
-            if (transform.position.x > enemyXPosition)
+            if (grounded)
             {
-                rb.AddForce(new Vector2(-thrustX, thrustY));
-            }
-            else 
-            {
-                rb.AddForce(new Vector2(thrustX, thrustY));
+                if (transform.position.x > enemyXPosition)
+                {
+                    rb.AddForce(new Vector2(-thrustX, thrustY));
+                }
+                else
+                {
+                    rb.AddForce(new Vector2(thrustX, thrustY));
+                }
             }
         }
     }
