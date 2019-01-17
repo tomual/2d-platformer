@@ -15,7 +15,7 @@ public class Menu : MonoBehaviour {
 
     public void StartClick()
     {
-        SceneManager.LoadScene("World2");
+        SceneManager.LoadScene("World");
     }
 
     public void QuitClick()

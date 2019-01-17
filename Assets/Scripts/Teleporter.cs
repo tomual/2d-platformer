@@ -22,7 +22,18 @@ public class Teleporter : MonoBehaviour {
         {
             if (!fadeOutInProgress)
             {
-                SceneManager.LoadScene("World");
+                switch (SceneManager.GetActiveScene().name)
+                {
+                    case "World":
+                        SceneManager.LoadScene("World2");
+                        break;
+                    case "World2":
+                        SceneManager.LoadScene("World3");
+                        break;
+                    default:
+                        SceneManager.LoadScene("World");
+                        break;
+                }
             }
             else
             {
