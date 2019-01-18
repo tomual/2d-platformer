@@ -6,21 +6,24 @@ public class MiniBoss : FollowingEnemy {
 
     private bool allowedToMove = false;
 
-    void Start()
-    {
-    }
-
     void Update () {
 		if (!isDead() && allowedToMove)
         {
             UpdateDirection();
             UpdateWeapon();
         }
+        if (isDead())
+        {
+            Die();
+        }
     }
 
     private void FixedUpdate()
     {
-        Move();
+        if (allowedToMove)
+        {
+            Move();
+        }
     }
 
     public void enableBoss(bool enable)

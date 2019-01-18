@@ -19,6 +19,7 @@ public class MiniBossEnabler : MonoBehaviour {
     {
         if (collision.name == "Player")
         {
+            Debug.Log("Enable the boss thing");
             miniBoss.enableBoss(true);
         }
     }

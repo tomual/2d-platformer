@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour {
     public Material defaultMaterial;
     public Material whiteMaterial;
     public float lastTookDamage = 0;
+    private float spriteAlpha = 1f;
 
     void Awake()
     {
@@ -35,6 +36,10 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if (isDead())
+        {
+            Die();
+        }
     }
 
     private void LateUpdate()
@@ -43,20 +48,16 @@ public class Enemy : MonoBehaviour {
         {
             sprite.material = defaultMaterial;
         }
-        
-
     }
 
     public virtual void TakeDamage()
     {
         --health;
-        Debug.Log("Enemy Ouch");
-        Debug.Log(health);
         sprite.material = whiteMaterial;
         lastTookDamage = Time.time;
         if (isDead())
         {
-            Die();
+            anim.SetTrigger("Dead");
         }
     }
 
@@ -67,8 +68,21 @@ public class Enemy : MonoBehaviour {
 
     public void Die()
     {
-        anim.SetBool("Dead", true);
-        rb.mass = 10000;
+        float r = GetComponent<SpriteRenderer>().color.r;
+        float g = GetComponent<SpriteRenderer>().color.g;
+        float b = GetComponent<SpriteRenderer>().color.b;
+        GetComponent<SpriteRenderer>().color = new Color(r, g, b, spriteAlpha);
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        if (Time.time - lastTookDamage >= 2)
+        {
+            spriteAlpha -= 0.01f;
+            if (spriteAlpha <= 0)
+            {
+                Destroy(gameObject);
+            }
+            rb.mass = 10000;
+        }
     }
 
 

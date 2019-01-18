@@ -9,7 +9,6 @@ public class FollowingEnemy : Enemy {
     public bool facingRight = false;
     private float attackStart = 0;
     private GameObject weapon;
-    private float spriteAlpha = 1f;
 
     void Start () {
         weapon = gameObject.transform.GetChild(0).gameObject;
@@ -24,14 +23,7 @@ public class FollowingEnemy : Enemy {
         }
         if (isDead())
         {
-            spriteAlpha -= 0.05f;
-            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, spriteAlpha);
-            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            GetComponent<CapsuleCollider2D>().enabled = false;
-            if (spriteAlpha <= 0)
-            {
-                Destroy(gameObject);
-            }
+            Die();
         }
     }
 
@@ -43,6 +35,7 @@ public class FollowingEnemy : Enemy {
 
     public void Move()
     {
+        Debug.Log("Move?");
         if (!isPlaying("attack_enemy") && !isDead())
         {
             if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
@@ -138,7 +131,7 @@ public class FollowingEnemy : Enemy {
         lastTookDamage = Time.time;
         if (isDead())
         {
-            Die();
+            anim.SetBool("Dead", true);
         }
     }
 }
