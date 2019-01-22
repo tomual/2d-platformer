@@ -11,19 +11,15 @@ public class Destroyer : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("1");
         // If the gameobject should be destroyed on awake,
         if (destroyOnAwake)
         {
-            Debug.Log("2");
             if (findChild)
             {
-                Debug.Log("3");
                 Destroy(transform.Find(namedChild).gameObject);
             }
             else
             {
-                Debug.Log("4");
                 // ... destroy the gameobject after the delay.
                 Destroy(gameObject, awakeDestroyDelay);
             }

@@ -12,6 +12,7 @@ public class FollowingEnemy : Enemy {
 
     void Start () {
         weapon = gameObject.transform.GetChild(0).gameObject;
+        anim.SetBool("Moving", true);
     }
 	
 	void Update ()

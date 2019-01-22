@@ -792,13 +792,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a71322fecccb24d8b685b894db67f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 8
   rb: {fileID: 0}
   anim: {fileID: 0}
   sprite: {fileID: 0}
   defaultMaterial: {fileID: 0}
   whiteMaterial: {fileID: 0}
   lastTookDamage: 0
+  minion: {fileID: 50661222917840834, guid: 80eb3fb47d4f7a748a0a14517f0b1227, type: 2}
 --- !u!50 &1609802194
 Rigidbody2D:
   serializedVersion: 4

@@ -52,12 +52,15 @@ public class Enemy : MonoBehaviour {
 
     public virtual void TakeDamage()
     {
-        --health;
-        sprite.material = whiteMaterial;
-        lastTookDamage = Time.time;
-        if (isDead())
+        if (Time.time - lastTookDamage >= 0.1f)
         {
-            anim.SetTrigger("Dead");
+            --health;
+            sprite.material = whiteMaterial;
+            lastTookDamage = Time.time;
+            if (isDead())
+            {
+                anim.SetTrigger("Dead");
+            }
         }
     }
 
@@ -68,6 +71,8 @@ public class Enemy : MonoBehaviour {
 
     public void Die()
     {
+        Debug.Log("Die");
+        Debug.Log(health);
         float r = GetComponent<SpriteRenderer>().color.r;
         float g = GetComponent<SpriteRenderer>().color.g;
         float b = GetComponent<SpriteRenderer>().color.b;
@@ -90,7 +95,6 @@ public class Enemy : MonoBehaviour {
     {
         if (!isDead())
         {
-            Debug.Log(col.gameObject.name);
             if (col.gameObject.name == "Weapon")
             {
                 TakeDamage();
