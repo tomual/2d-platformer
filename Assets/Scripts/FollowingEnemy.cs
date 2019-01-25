@@ -24,6 +24,8 @@ public class FollowingEnemy : Enemy {
         }
         if (isDead())
         {
+            weapon.SetActive(false);
+            anim.SetBool("Moving", false);
             Die();
         }
     }
@@ -36,7 +38,6 @@ public class FollowingEnemy : Enemy {
 
     public void Move()
     {
-        Debug.Log("Move?");
         if (!isPlaying("attack_enemy") && !isDead())
         {
             if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)

@@ -46,9 +46,7 @@ public class Boss : Enemy {
                         }
                         break;
                 }
-                Debug.Log("Do Something");
                 lastAction = Time.time;
-                Attack();
             }
         }
         if (isDead())
