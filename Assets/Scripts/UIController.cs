@@ -7,11 +7,15 @@ public class UIController : MonoBehaviour {
     private GameObject pauseScreen;
     private GameObject deathScreen;
     private GameObject fadeScreen;
+    private GameObject endScreen;
 
     private bool fadeDeathScreen = false;
     private float deathScreenAlpha = 0;
     private bool fadeInInProgress = true;
     private float fadeScreenAlpha = 1;
+    private bool fadeEndScreen = false;
+    private float endScreenAlpha = 0;
+    private float endStart;
 
     void Start()
     {
@@ -19,6 +23,8 @@ public class UIController : MonoBehaviour {
         pauseScreen.SetActive(false);
         deathScreen = GameObject.FindGameObjectWithTag("DeathScreen");
         deathScreen.SetActive(false);
+        endScreen = GameObject.FindGameObjectWithTag("EndScreen");
+        endScreen.SetActive(false);
         fadeScreen = GameObject.FindGameObjectWithTag("FadeScreen");
         fadeScreen.GetComponent<CanvasGroup>().alpha = fadeScreenAlpha;
     }
@@ -60,11 +66,31 @@ public class UIController : MonoBehaviour {
                 fadeDeathScreen = false;
             }
         }
+
+        if (fadeEndScreen)
+        {
+            if (Time.time - endStart > 2)
+            {
+                endScreenAlpha += 0.02f;
+                endScreen.GetComponent<CanvasGroup>().alpha = endScreenAlpha;
+                if (endScreenAlpha >= 1)
+                {
+                    fadeEndScreen = false;
+                }
+            }
+        }
     }
 
     public void ShowDeathScreen()
     {
         fadeDeathScreen = true;
         deathScreen.SetActive(true);
+    }
+
+    public void ShowEndScreen()
+    {
+        endStart = Time.time;
+        fadeEndScreen = true;
+        endScreen.SetActive(true);
     }
 }

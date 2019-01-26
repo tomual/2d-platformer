@@ -10,11 +10,13 @@ public class Boss : Enemy {
     private GameObject weapon;
     private System.Random random;
     public Rigidbody2D minion;
+    UIController uiController;
 
     void Start()
     {
         weapon = gameObject.transform.GetChild(0).gameObject;
         random = new System.Random();
+        uiController = GameObject.FindGameObjectWithTag("UIController").GetComponent<UIController>();
     }
 
     void Update()
@@ -52,6 +54,7 @@ public class Boss : Enemy {
         if (isDead())
         {
             Die();
+            uiController.ShowEndScreen();
         }
     }
 
