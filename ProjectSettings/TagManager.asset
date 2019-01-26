@@ -12,6 +12,7 @@ TagManager:
   - UIController
   - FadeScreen
   - EndScreen
+  - FallingDanger
   layers:
   - Default
   - TransparentFX

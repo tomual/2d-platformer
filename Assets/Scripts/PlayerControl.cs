@@ -194,6 +194,36 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        float thrustY = 350;
+        float thrustX = 550;
+
+        if (collision.gameObject.tag == "FallingDanger" && !isBeingKnockedBack() && !invincible)
+        {
+            float enemyXPosition = collision.gameObject.transform.position.x;
+            lastKnockback = Time.time;
+            invincible = true;
+            healthSlider.value -= 1;
+            if (IsDead())
+            {
+                Die();
+            }
+
+            if (grounded)
+            {
+                if (transform.position.x > enemyXPosition)
+                {
+                    rb.AddForce(new Vector2(-thrustX, thrustY));
+                }
+                else
+                {
+                    rb.AddForce(new Vector2(thrustX, thrustY));
+                }
+            }
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         float thrustY = 350;

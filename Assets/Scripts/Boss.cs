@@ -10,6 +10,7 @@ public class Boss : Enemy {
     private GameObject weapon;
     private System.Random random;
     public Rigidbody2D minion;
+    public Rigidbody2D fallingDanger;
     UIController uiController;
 
     void Start()
@@ -27,6 +28,7 @@ public class Boss : Enemy {
 
             if (Time.time - lastAction > 2)
             {
+                lastAction = Time.time;
                 int mode = random.Next(1, 4);
 
                 switch(mode)
@@ -47,7 +49,6 @@ public class Boss : Enemy {
                         }
                         break;
                 }
-                lastAction = Time.time;
             }
         }
         if (isDead())
@@ -65,7 +66,7 @@ public class Boss : Enemy {
 
     private void Summon()
     {
-        Vector3 position = new Vector3(transform.position.x - 5f, transform.position.y + 1f, transform.position.z);
+        Vector3 position = new Vector3(transform.position.x - 5f, transform.position.y + 2f, transform.position.z);
         Rigidbody2D minionInstance = Instantiate(minion, position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
     }
 
@@ -76,7 +77,12 @@ public class Boss : Enemy {
 
     private void Stomp()
     {
-        Debug.Log("Stomp");
+        for (int i = 0; i < 3; i++)
+        {
+            float x = i * 2 + 3;
+            Vector3 position = new Vector3(transform.position.x - x, transform.position.y + 2f, transform.position.z);
+            Rigidbody2D fallingDangerInstance = Instantiate(fallingDanger, position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
+        }
     }
 
     private void FixedUpdate()
