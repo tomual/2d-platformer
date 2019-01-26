@@ -27,7 +27,6 @@ public class Boss : Enemy {
 
             if (Time.time - lastAction > 2)
             {
-                Debug.Log(random.Next(1, 4));
                 int mode = random.Next(1, 4);
 
                 switch(mode)

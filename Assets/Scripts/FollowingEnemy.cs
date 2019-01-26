@@ -116,7 +116,6 @@ public class FollowingEnemy : Enemy {
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Debug.Log(transform.position.x);
         if (!isDead())
         {
             if (collision.gameObject.name == "Player")

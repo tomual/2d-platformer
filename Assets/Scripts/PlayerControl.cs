@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class PlayerControl : MonoBehaviour
     public AudioClip[] taunts;              // Array of clips for when the player taunts.
     public float tauntProbability = 50f;    // Chance of a taunt happening.
     public float tauntDelay = 1f;           // Delay for when the taunt should happen.
-    public Slider healthSlider;
+    private Slider healthSlider;
 
 
     private int tauntIndex;                 // The index of the taunts array indicating the most recent taunt.
@@ -46,6 +47,7 @@ public class PlayerControl : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         weapon = GameObject.FindGameObjectWithTag("Weapon");
+        healthSlider = GameObject.FindGameObjectWithTag("HealthText").GetComponent<Slider>();
         uiController = GameObject.FindGameObjectWithTag("UIController").GetComponent<UIController>();
     }
 
@@ -57,22 +59,18 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
         grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
-        // If the jump button is pressed and the player is grounded then the player should jump.
         anim.SetBool("Grounded", grounded);
         if (Input.GetButtonDown("Jump") && grounded && !isBeingKnockedBack())
         {
             jump = true;
         }
 
-        // If the fire button is pressed...
 		if(Input.GetButtonDown("Fire1"))
 		{
 			anim.SetTrigger("Shoot");
 
-            // If the player is facing right...
             if (facingRight)
 			{
                 Vector3 position = new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
@@ -87,7 +85,6 @@ public class PlayerControl : MonoBehaviour
 			}
         }
 
-        // Fire2 = Slash
         if (Input.GetButtonDown("Fire2") && !isPlaying("slash"))
         {
             anim.SetTrigger("Slash");
@@ -118,8 +115,9 @@ public class PlayerControl : MonoBehaviour
             }
             if (Time.time - deathTime > 2)
             {
-                Debug.Log("SHow de thing");
-                uiController.ShowDeathScreen();
+                Respawn();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                // uiController.ShowDeathScreen();
             }
             return;
         }
@@ -263,5 +261,11 @@ public class PlayerControl : MonoBehaviour
             invincible = false;
         }
 
+    }
+
+    private void Respawn()
+    {
+        healthSlider.value = healthSlider.maxValue;
+        anim.SetBool("Dead", false);
     }
 }

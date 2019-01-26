@@ -227,7 +227,8 @@ MonoBehaviour:
   taunts: []
   tauntProbability: 50
   tauntDelay: 1
-  healthSlider: {fileID: 0}
+  healthSlider: {fileID: 114188616681737894, guid: 5d486ffa92fec444aa7720149728cc2b,
+    type: 2}
   rb: {fileID: 0}
   rocket: {fileID: 50446973122144096, guid: d8abb44989d744049b9b6cefed7556fd, type: 2}
   speed: 20
