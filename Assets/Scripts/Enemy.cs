@@ -24,7 +24,8 @@ public class Enemy : MonoBehaviour {
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         defaultMaterial = sprite.material;
-        whiteMaterial = (Material) AssetDatabase.LoadAssetAtPath("Assets/Sprites/WhiteMaterial.mat", typeof(Material));
+        // whiteMaterial = (Material) AssetDatabase.LoadAssetAtPath("Assets/Sprites/WhiteMaterial.mat", typeof(Material));
+        whiteMaterial = Resources.Load<Material>("Material/WhiteMaterial");
     }
 
 

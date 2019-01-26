@@ -8,7 +8,7 @@ public class FollowingEnemy : Enemy {
     float h = 0.5f;
     public bool facingRight = false;
     private float attackStart = 0;
-    private GameObject weapon;
+    public GameObject weapon;
 
     void Start () {
         weapon = gameObject.transform.GetChild(0).gameObject;

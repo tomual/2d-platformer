@@ -10,6 +10,7 @@ public class Menu : MonoBehaviour {
 
     void Awake()
     {
+        PlayerPrefs.DeleteAll();
         pauseScreen = GameObject.FindGameObjectWithTag("PauseScreen");
     }
 

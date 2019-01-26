@@ -14,6 +14,8 @@ public class MiniBoss : FollowingEnemy {
         }
         if (isDead())
         {
+            weapon.SetActive(false);
+            anim.SetBool("Moving", false);
             Die();
         }
     }
