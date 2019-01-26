@@ -9,10 +9,14 @@ public class FollowingEnemy : Enemy {
     public bool facingRight = false;
     private float attackStart = 0;
     public GameObject weapon;
+    private float startTime;
+    private float lastXPosition;
+    private float lastXPositionChange;
 
     void Start () {
         weapon = gameObject.transform.GetChild(0).gameObject;
         anim.SetBool("Moving", true);
+        startTime = Time.time;
     }
 	
 	void Update ()
@@ -32,7 +36,13 @@ public class FollowingEnemy : Enemy {
 
     private void FixedUpdate()
     {
-        Move();
+        if (Time.time - startTime > 2)
+        {
+            Move();
+        } else {
+            lastXPosition = transform.position.x;
+            lastXPositionChange = Time.time;
+        }
     }
 
 
@@ -48,6 +58,18 @@ public class FollowingEnemy : Enemy {
             if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeed)
             {
                 GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+            }
+
+            if (lastXPosition != transform.position.x)
+            {
+                lastXPosition = transform.position.x;
+                lastXPositionChange = Time.time;
+            }
+
+            if (Time.time - lastXPositionChange > 1)
+            {
+                lastXPositionChange = Time.time;
+                GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 1000f));
             }
         }
     }
@@ -82,6 +104,8 @@ public class FollowingEnemy : Enemy {
         if (isPlaying("attack_enemy") && Time.time - attackStart > 0.5)
         {
             rb.mass = 10000;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = 0;
             weapon.SetActive(true);
         }
         else
@@ -92,6 +116,7 @@ public class FollowingEnemy : Enemy {
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        Debug.Log(transform.position.x);
         if (!isDead())
         {
             if (collision.gameObject.name == "Player")
@@ -103,6 +128,8 @@ public class FollowingEnemy : Enemy {
                     anim.SetTrigger("Attack");
                 }
                 rb.mass = 10000;
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = 0;
             }
             else
             {
