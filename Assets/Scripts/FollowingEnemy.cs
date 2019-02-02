@@ -36,7 +36,7 @@ public class FollowingEnemy : Enemy {
 
     private void FixedUpdate()
     {
-        if (Time.time - startTime > 2)
+        if (Time.time - startTime > 1)
         {
             Move();
         } else {
