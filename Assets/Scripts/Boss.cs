@@ -60,12 +60,14 @@ public class Boss : Enemy {
 
     private void Attack()
     {
+        Debug.Log("Attakku");
         attackStart = Time.time;
         anim.SetTrigger("Attack");
     }
 
     private void Summon()
     {
+        anim.SetTrigger("Summon");
         Vector3 position = new Vector3(transform.position.x - 5f, transform.position.y + 2f, transform.position.z);
         Rigidbody2D minionInstance = Instantiate(minion, position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
     }
@@ -77,10 +79,10 @@ public class Boss : Enemy {
 
     private void Stomp()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
-            float x = i * 2 + 3;
-            Vector3 position = new Vector3(transform.position.x - x, transform.position.y + 2f, transform.position.z);
+            float x = i * 1.5f + 1.5f;
+            Vector3 position = new Vector3(transform.position.x - x, transform.position.y + 3f, transform.position.z);
             Rigidbody2D fallingDangerInstance = Instantiate(fallingDanger, position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
         }
     }
@@ -107,19 +109,6 @@ public class Boss : Enemy {
         else
         {
             weapon.SetActive(false);
-        }
-    }
-
-    public void Swipe()
-    {
-        if (!isDead())
-        {
-            if (!isPlaying("attack_enemy"))
-            {
-                GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
-                attackStart = Time.time;
-                anim.SetTrigger("Attack");
-            }
         }
     }
 }
