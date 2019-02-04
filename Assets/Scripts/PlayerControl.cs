@@ -109,15 +109,15 @@ public class PlayerControl : MonoBehaviour
     {
         if (IsDead())
         {
-            if (Time.time - deathTime > 1)
-            {
-                anim.SetBool("Dead", true);
-            }
             if (Time.time - deathTime > 2)
             {
                 Respawn();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 // uiController.ShowDeathScreen();
+            }
+            if (Time.time - deathTime > 0.8 && !isPlaying("die"))
+            {
+                anim.SetTrigger("Dead");
             }
             return;
         }
@@ -262,6 +262,7 @@ public class PlayerControl : MonoBehaviour
     private void Die()
     {
         Debug.Log("It's time to die");
+        rb.mass = 1000;
         deathTime = Time.time;
     }
 
