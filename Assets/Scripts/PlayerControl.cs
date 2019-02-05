@@ -7,29 +7,22 @@ using UnityEngine.SceneManagement;
 public class PlayerControl : MonoBehaviour
 {
     [HideInInspector]
-    public bool facingRight = true;         // For determining which way the player is currently facing.
+    public bool facingRight = true;
     [HideInInspector]
-    public bool jump = false;               // Condition for whether the player should jump.
+    public bool jump = false;
 
-
-    public float moveForce = 300;          // Amount of force added to move the player left and right.
-    public float maxSpeed = 2;             // The fastest the player can travel in the x axis.
-    public AudioClip[] jumpClips;           // Array of clips for when the player jumps.
-    public float jumpForce = 1000f;         // Amount of force added when the player jumps.
-    public AudioClip[] taunts;              // Array of clips for when the player taunts.
-    public float tauntProbability = 50f;    // Chance of a taunt happening.
-    public float tauntDelay = 1f;           // Delay for when the taunt should happen.
+    public float moveForce = 300;
+    public float maxSpeed = 2;
+    public float jumpForce = 1000f;
     private Slider healthSlider;
 
-
-    private int tauntIndex;                 // The index of the taunts array indicating the most recent taunt.
-    private Transform groundCheck;          // A position marking where to check if the player is grounded.
-    private bool grounded = false;          // Whether or not the player is grounded.
-    private Animator anim;                  // Reference to the player's animator component.
+    private Transform groundCheck;
+    private bool grounded = false;
+    private Animator anim;
 
     public Rigidbody2D rb;
     public Rigidbody2D rocket;
-    public float speed = 20f;				// The speed the rocket will fire at.
+    public float speed = 20f;
 
     private GameObject weapon;
 
@@ -40,7 +33,6 @@ public class PlayerControl : MonoBehaviour
 
     UIController uiController;
 
-
     void Awake()
     {
         groundCheck = transform.Find("groundCheck");
@@ -50,7 +42,6 @@ public class PlayerControl : MonoBehaviour
         healthSlider = GameObject.FindGameObjectWithTag("HealthText").GetComponent<Slider>();
         uiController = GameObject.FindGameObjectWithTag("UIController").GetComponent<UIController>();
     }
-
 
     void Update()
     {
@@ -104,7 +95,6 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-
     void FixedUpdate()
     {
         if (IsDead())
@@ -115,7 +105,11 @@ public class PlayerControl : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 // uiController.ShowDeathScreen();
             }
-            if (Time.time - deathTime > 0.8 && !isPlaying("die"))
+            if (Time.time - deathTime > 0.2)
+            {
+                rb.velocity = Vector3.zero;
+            }
+            if (Time.time - deathTime > 0.8 && Time.time - deathTime < 1)
             {
                 anim.SetTrigger("Dead");
             }
@@ -168,7 +162,6 @@ public class PlayerControl : MonoBehaviour
             jump = false;
         }
     }
-
 
     void Flip()
     {
@@ -235,10 +228,6 @@ public class PlayerControl : MonoBehaviour
             lastKnockback = Time.time;
             invincible = true;
             healthSlider.value -= 1;
-            if (IsDead())
-            {
-                Die();
-            }
 
             if (grounded)
             {
@@ -251,6 +240,11 @@ public class PlayerControl : MonoBehaviour
                     rb.AddForce(new Vector2(thrustX, thrustY));
                 }
             }
+
+            if (IsDead())
+            {
+                Die();
+            }
         }
     }
 
@@ -262,7 +256,6 @@ public class PlayerControl : MonoBehaviour
     private void Die()
     {
         Debug.Log("It's time to die");
-        rb.mass = 1000;
         deathTime = Time.time;
     }
 
@@ -297,6 +290,5 @@ public class PlayerControl : MonoBehaviour
     private void Respawn()
     {
         healthSlider.value = healthSlider.maxValue;
-        anim.SetBool("Dead", false);
     }
 }

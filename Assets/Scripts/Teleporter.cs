@@ -30,6 +30,9 @@ public class Teleporter : MonoBehaviour {
                     case "World2":
                         SceneManager.LoadScene("World3");
                         break;
+                    case "World3":
+                        SceneManager.LoadScene("World4");
+                        break;
                     default:
                         SceneManager.LoadScene("World");
                         break;
