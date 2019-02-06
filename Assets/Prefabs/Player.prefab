@@ -226,6 +226,8 @@ MonoBehaviour:
   rb: {fileID: 0}
   rocket: {fileID: 50446973122144096, guid: d8abb44989d744049b9b6cefed7556fd, type: 2}
   speed: 20
+  animatorWithPants: {fileID: 9100000, guid: dcf6f13729e5c8e4f93a765feadc88c5, type: 2}
+  animatorWithNoPants: {fileID: 9100000, guid: f6f3d32952296d34cadf842b4c9863c3, type: 2}
 --- !u!212 &212302411433741070
 SpriteRenderer:
   m_ObjectHideFlags: 1

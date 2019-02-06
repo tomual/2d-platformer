@@ -33,6 +33,9 @@ public class PlayerControl : MonoBehaviour
 
     UIController uiController;
 
+    public RuntimeAnimatorController animatorWithPants;
+    public RuntimeAnimatorController animatorWithNoPants;
+
     void Awake()
     {
         groundCheck = transform.Find("groundCheck");
@@ -41,6 +44,12 @@ public class PlayerControl : MonoBehaviour
         weapon = GameObject.FindGameObjectWithTag("Weapon");
         healthSlider = GameObject.FindGameObjectWithTag("HealthText").GetComponent<Slider>();
         uiController = GameObject.FindGameObjectWithTag("UIController").GetComponent<UIController>();
+        Debug.Log("Ye");
+        if (SceneManager.GetActiveScene().name == "World")
+        {
+            Debug.Log("Ye");
+            anim.runtimeAnimatorController = animatorWithNoPants;
+        }
     }
 
     void Update()
@@ -58,25 +67,7 @@ public class PlayerControl : MonoBehaviour
             jump = true;
         }
 
-		if(Input.GetButtonDown("Fire1"))
-		{
-			anim.SetTrigger("Shoot");
-
-            if (facingRight)
-			{
-                Vector3 position = new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
-				Rigidbody2D bulletInstance = Instantiate(rocket, position, Quaternion.Euler(new Vector3(0,0,0))) as Rigidbody2D;
-				bulletInstance.velocity = new Vector2(speed, 0);
-			}
-			else
-            {
-                Vector3 position = new Vector3(transform.position.x - 0.5f, transform.position.y, transform.position.z);
-                Rigidbody2D bulletInstance = Instantiate(rocket, position, Quaternion.Euler(new Vector3(0,0,180f))) as Rigidbody2D;
-				bulletInstance.velocity = new Vector2(-speed, 0);
-			}
-        }
-
-        if (Input.GetButtonDown("Fire2") && !isPlaying("slash"))
+        if (Input.GetButtonDown("Fire1") && !isPlaying("slash"))
         {
             anim.SetTrigger("Slash");
         }

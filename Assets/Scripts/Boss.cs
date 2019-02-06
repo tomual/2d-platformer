@@ -60,7 +60,6 @@ public class Boss : Enemy {
 
     private void Attack()
     {
-        Debug.Log("Attakku");
         attackStart = Time.time;
         anim.SetTrigger("Attack");
     }

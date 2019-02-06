@@ -13,6 +13,7 @@ TagManager:
   - FadeScreen
   - EndScreen
   - FallingDanger
+  - ItemScreen
   layers:
   - Default
   - TransparentFX
