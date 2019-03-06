@@ -4,69 +4,48 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    Animator animator;
+    Rigidbody2D rigidbody;
+    bool facingRight = true;
 
-    [HideInInspector]
-    public bool facingRight = true;
-    public bool jump = false;
-
-    private Animator animator;
-
-    void Awake()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Start ()
-    {
-		
-	}
-	
-	void Update ()
-    {
 
-    }
-
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        float h = Input.GetAxis("Horizontal");
-
         float maxSpeed = 2;
         float moveForce = 300;
-        float jumpForce = 1000f;
 
+        float h = Input.GetAxis("Horizontal");
         animator.SetFloat("Speed", Mathf.Abs(h));
 
-        if (h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
+        if (h * rigidbody.velocity.x < maxSpeed)
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
+            rigidbody.AddForce(Vector2.right * h * moveForce);
         }
 
         if (h == 0)
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
+            rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
         }
 
-        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeed)
+        if (Mathf.Abs(rigidbody.velocity.x) > maxSpeed )
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
-
+            rigidbody.velocity = new Vector2(Mathf.Sign(rigidbody.velocity.x) * maxSpeed, rigidbody.velocity.y);
         }
+
         if (h > 0 && !facingRight)
         {
             Flip();
         }
-        else if (h < 0 && facingRight)
+
+        if (h < 0 && facingRight)
         {
             Flip();
-        }
-
-        if (jump)
-        {
-            animator.SetTrigger("Jump");
-
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
-
-            jump = false;
         }
     }
 
@@ -74,8 +53,8 @@ public class Player : MonoBehaviour
     {
         facingRight = !facingRight;
 
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }
