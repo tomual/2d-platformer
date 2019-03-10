@@ -9,20 +9,29 @@ public class Player : MonoBehaviour
     private bool facingRight = true;
     private Transform groundCheck;
     private bool jump;
+    private GameObject weapon;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");
+        weapon = GameObject.FindGameObjectWithTag("PlayerWeapon");
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded())
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             jump = true;
         }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            animator.SetTrigger("Attack");
+        }
+
+        weapon.SetActive(IsPlaying("attack"));
     }
 
     private void FixedUpdate()
@@ -33,7 +42,7 @@ public class Player : MonoBehaviour
 
         float h = Input.GetAxis("Horizontal");
         animator.SetFloat("Speed", Mathf.Abs(h));
-        animator.SetBool("Grounded", isGrounded());
+        animator.SetBool("Grounded", IsGrounded());
 
         if (h * rigidbody.velocity.x < maxSpeed)
         {
@@ -77,8 +86,14 @@ public class Player : MonoBehaviour
         transform.localScale = scale;
     }
 
-    bool isGrounded()
+    bool IsGrounded()
     {
         return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+    }
+
+    bool IsPlaying(string name)
+    {
+        AnimatorStateInfo animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return animatorStateInfo.IsName(name) && animatorStateInfo.normalizedTime < 1.0f;
     }
 }
