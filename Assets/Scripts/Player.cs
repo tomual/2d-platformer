@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
 
         float h = Input.GetAxis("Horizontal");
         animator.SetFloat("Speed", Mathf.Abs(h));
+        animator.SetBool("Grounded", isGrounded());
 
         if (h * rigidbody.velocity.x < maxSpeed)
         {
@@ -78,8 +79,6 @@ public class Player : MonoBehaviour
 
     bool isGrounded()
     {
-        Debug.Log(LayerMask.NameToLayer("Ground"));
-        Debug.Log(groundCheck.position);
         return Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
     }
 }
