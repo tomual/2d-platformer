@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
             jump = true;
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !IsPlaying("attack"))
         {
             animator.SetTrigger("Attack");
         }
