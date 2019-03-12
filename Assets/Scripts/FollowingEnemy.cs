@@ -8,10 +8,12 @@ public class FollowingEnemy : Enemy
     float flipTimer = 0;
     float flipTimeout = 1;
     bool facingRight = true;
+    GameObject weapon;
 
-    void Start()
+    new void Awake()
     {
-        
+        base.Awake();
+        weapon = GameObject.Find("Weapon");
     }
 
     void Update()
@@ -20,6 +22,15 @@ public class FollowingEnemy : Enemy
     }
 
     private void FixedUpdate()
+    {
+        if (!IsPlaying("attack"))
+        {
+            Move();
+        }
+        weapon.SetActive(IsPlaying("attack"));
+    }
+
+    void Move()
     {
         animator.SetBool("Moving", true);
         float moveForce = 200f;
@@ -34,7 +45,6 @@ public class FollowingEnemy : Enemy
         {
             enemyRigidbody.velocity = new Vector2(Mathf.Sign(enemyRigidbody.velocity.x) * maxSpeed, enemyRigidbody.velocity.y);
         }
-        
     }
 
     void UpdateDirection()
@@ -46,7 +56,7 @@ public class FollowingEnemy : Enemy
             {
                 h = 0.5f;
                 flipTimer = Time.time;
-                if (facingRight)
+                if (!facingRight)
                 {
                     Flip();
                 }
@@ -57,7 +67,7 @@ public class FollowingEnemy : Enemy
             {
                 h = -0.5f;
                 flipTimer = Time.time;
-                if (!facingRight)
+                if (facingRight)
                 {
                     Flip();
                 }
@@ -75,5 +85,13 @@ public class FollowingEnemy : Enemy
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Player" && !IsPlaying("attack"))
+        {
+            animator.SetTrigger("Attack");
+        }
     }
 }

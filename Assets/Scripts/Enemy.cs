@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D enemyRigidbody;
     public Animator animator;
 
-    private void Awake()
+    public void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -21,6 +21,12 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        
+
+    }
+
+    public bool IsPlaying(string name)
+    {
+        AnimatorStateInfo animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return animatorStateInfo.IsName(name) && animatorStateInfo.normalizedTime < 1.0f;
     }
 }
