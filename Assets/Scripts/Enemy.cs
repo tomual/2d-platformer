@@ -5,12 +5,12 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     int health;
-    public Rigidbody2D rigidbody;
+    public Rigidbody2D enemyRigidbody;
     public Animator animator;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        enemyRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 

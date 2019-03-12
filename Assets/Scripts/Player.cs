@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Animator animator;
-    private Rigidbody2D rigidbody;
+    private Rigidbody2D playerRigidbody;
     private bool facingRight = true;
     private Transform groundCheck;
     private bool jump;
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody2D>();
+        playerRigidbody = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");
         weapon = GameObject.FindGameObjectWithTag("PlayerWeapon");
     }
@@ -44,19 +44,19 @@ public class Player : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(h));
         animator.SetBool("Grounded", IsGrounded());
 
-        if (h * rigidbody.velocity.x < maxSpeed)
+        if (h * playerRigidbody.velocity.x < maxSpeed)
         {
-            rigidbody.AddForce(Vector2.right * h * moveForce);
+            playerRigidbody.AddForce(Vector2.right * h * moveForce);
         }
 
         if (h == 0)
         {
-            rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
+            playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
         }
 
-        if (Mathf.Abs(rigidbody.velocity.x) > maxSpeed )
+        if (Mathf.Abs(playerRigidbody.velocity.x) > maxSpeed )
         {
-            rigidbody.velocity = new Vector2(Mathf.Sign(rigidbody.velocity.x) * maxSpeed, rigidbody.velocity.y);
+            playerRigidbody.velocity = new Vector2(Mathf.Sign(playerRigidbody.velocity.x) * maxSpeed, playerRigidbody.velocity.y);
         }
 
         if (h > 0 && !facingRight)
@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
         if (jump)
         {
             animator.SetTrigger("Jump");
-            rigidbody.AddForce(new Vector2(0f, jumpForce));
+            playerRigidbody.AddForce(new Vector2(0f, jumpForce));
             jump = false;
         }
     }

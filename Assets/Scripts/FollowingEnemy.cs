@@ -5,6 +5,9 @@ using UnityEngine;
 public class FollowingEnemy : Enemy
 {
     float h = 0.5f;
+    float flipTimer = 0;
+    float flipTimeout = 1;
+    bool facingRight = true;
 
     void Start()
     {
@@ -13,37 +16,64 @@ public class FollowingEnemy : Enemy
 
     void Update()
     {
-
         UpdateDirection();
     }
 
     private void FixedUpdate()
     {
+        animator.SetBool("Moving", true);
         float moveForce = 200f;
         float maxSpeed = 0.5f;
 
-        if (h * rigidbody.velocity.x < maxSpeed)
+        if (h * enemyRigidbody.velocity.x < maxSpeed)
         {
-            rigidbody.AddForce(Vector2.right * h * moveForce);
+            enemyRigidbody.AddForce(Vector2.right * h * moveForce);
         }
 
-        if (rigidbody.velocity.x > maxSpeed)
+        if (enemyRigidbody.velocity.x > maxSpeed)
         {
-            rigidbody.velocity = new Vector2(Mathf.Sign(rigidbody.velocity.x) * maxSpeed, rigidbody.velocity.y);
+            enemyRigidbody.velocity = new Vector2(Mathf.Sign(enemyRigidbody.velocity.x) * maxSpeed, enemyRigidbody.velocity.y);
         }
         
     }
 
     void UpdateDirection()
     {
-        Debug.Log(h);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player.transform.position.x > transform.position.x)
         {
-            h = 0.5f;
+            if (Time.time - flipTimer > flipTimeout)
+            {
+                h = 0.5f;
+                flipTimer = Time.time;
+                if (facingRight)
+                {
+                    Flip();
+                }
+            }
+        } else if (player.transform.position.x < transform.position.x)
+        {
+            if (Time.time - flipTimer > flipTimeout)
+            {
+                h = -0.5f;
+                flipTimer = Time.time;
+                if (!facingRight)
+                {
+                    Flip();
+                }
+            }
         } else
         {
-            h = -0.5f;
+            flipTimer = Time.time;
         }
+
+    }
+
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 }
