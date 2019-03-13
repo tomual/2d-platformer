@@ -9,11 +9,13 @@ public class FollowingEnemy : Enemy
     float flipTimeout = 1;
     bool facingRight = true;
     GameObject weapon;
+    GameObject player;
 
     new void Awake()
     {
         base.Awake();
-        weapon = GameObject.Find("Weapon");
+        weapon = transform.Find("EnemyWeapon").gameObject;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
@@ -25,7 +27,14 @@ public class FollowingEnemy : Enemy
     {
         if (!IsPlaying("attack"))
         {
-            Move();
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+            if (distance < 0.8)
+            {
+                Attack();
+            } else
+            {
+                Move();
+            }
         }
         weapon.SetActive(IsPlaying("attack"));
     }
@@ -49,7 +58,6 @@ public class FollowingEnemy : Enemy
 
     void UpdateDirection()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player.transform.position.x > transform.position.x)
         {
             if (Time.time - flipTimer > flipTimeout)
@@ -87,11 +95,17 @@ public class FollowingEnemy : Enemy
         transform.localScale = theScale;
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player" && !IsPlaying("attack"))
+        if (collision.gameObject.name == "Player")
         {
-            animator.SetTrigger("Attack");
+            Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), collision.gameObject.GetComponent<BoxCollider2D>());
         }
+    }
+
+    void Attack()
+    {
+        animator.SetTrigger("Attack");
+        enemyRigidbody.velocity = new Vector2(0, enemyRigidbody.velocity.y);
     }
 }

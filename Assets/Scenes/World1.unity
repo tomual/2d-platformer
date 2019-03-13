@@ -2362,7 +2362,7 @@ GameObject:
   - component: {fileID: 857323762}
   - component: {fileID: 857323763}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: EnemyWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2395,7 +2395,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.2543291, y: -0.15566695}
+  m_Offset: {x: 0.2126877, y: -0.15566695}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2406,7 +2406,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.49134183, y: 0.42556643}
+  m_Size: {x: 0.43831772, y: 0.42556643}
   m_EdgeRadius: 0
 --- !u!1 &857655976
 GameObject:

@@ -14,16 +14,6 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-
-    }
-
     public bool IsPlaying(string name)
     {
         AnimatorStateInfo animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
