@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
     float lastKnockback;
     int health;
     bool invincible;
+    Slider healthBar;
 
     private void Awake()
     {
@@ -23,6 +25,9 @@ public class Player : MonoBehaviour
         health = 10;
         lastKnockback = -2;
         invincible = false;
+        healthBar = GameObject.FindGameObjectWithTag("HealthSlider").GetComponent<Slider>();
+        healthBar.maxValue = health;
+        healthBar.value = health;
     }
 
     private void Update()
@@ -138,6 +143,7 @@ public class Player : MonoBehaviour
             }
         }
         health = health - damage;
+        healthBar.value = health;
     }
 
     bool IsInvincible()
