@@ -17,8 +17,11 @@ public class Player : MonoBehaviour
     Slider healthBar;
     float deathTime;
 
+    UI ui;
+
     private void Awake()
     {
+        ui = GameObject.FindGameObjectWithTag("UIScript").GetComponent<UI>();
         animator = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");
@@ -61,11 +64,15 @@ public class Player : MonoBehaviour
 
         if (IsDead())
         {
+            if (Time.time - deathTime > 2)
+            {
+                ui.ShowDeathScreen();
+            }
             if (Time.time - deathTime > 0.2)
             {
                 playerRigidbody.velocity = Vector3.zero;
             }
-            if (Time.time - deathTime > 0.1 && Time.time - deathTime < 1)
+            if (Time.time - deathTime > 0.1 && Time.time - deathTime < 0.12 && !IsPlaying("dead"))
             {
                 animator.SetTrigger("Die");
             }
