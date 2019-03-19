@@ -165,10 +165,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012236476, y: -0.018354237}
+  m_Offset: {x: -0.012236476, y: 0.37349987}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.55, y: 0.81}
     newSize: {x: 0.55, y: 0.81}
     adaptiveTilingThreshold: 0.5
@@ -176,7 +176,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.42763746, y: 0.7243463}
+  m_Size: {x: 0.42763746, y: 0.7038307}
   m_EdgeRadius: 0
 --- !u!50 &4265856
 Rigidbody2D:
@@ -276,6 +276,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyRigidbody: {fileID: 0}
   animator: {fileID: 0}
+  sprite: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  whiteMaterial: {fileID: 0}
+  lastTookDamage: 0
 --- !u!1 &77633782
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,7 +2627,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857323761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.394, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4265858}
@@ -3354,7 +3358,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949525277}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1390494898}
@@ -4698,10 +4702,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000000044703484, y: -0.028551206}
+  m_Offset: {x: -0.000000044703484, y: 0.3671397}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.61, y: 0.81}
     newSize: {x: 0.61, y: 0.81}
     adaptiveTilingThreshold: 0.5
@@ -4709,7 +4713,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.45500752, y: 0.70395267}
+  m_Size: {x: 0.45500752, y: 0.6830168}
   m_EdgeRadius: 0
 --- !u!50 &1390494896
 Rigidbody2D:

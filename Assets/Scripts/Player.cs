@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     int health;
     bool invincible;
     Slider healthBar;
+    float deathTime;
 
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");
         weapon = transform.Find("Weapon").gameObject;
-        health = 10;
+        health = 2;
         lastKnockback = -2;
         invincible = false;
         healthBar = GameObject.FindGameObjectWithTag("HealthSlider").GetComponent<Slider>();
@@ -32,6 +33,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (!AllowedToMove())
+        {
+            return;
+        }
+
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             jump = true;
@@ -52,6 +58,20 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if (IsDead())
+        {
+            if (Time.time - deathTime > 0.2)
+            {
+                playerRigidbody.velocity = Vector3.zero;
+            }
+            if (Time.time - deathTime > 0.1 && Time.time - deathTime < 1)
+            {
+                animator.SetTrigger("Die");
+            }
+            return;
+        }
+
         float maxSpeed = 2;
         float moveForce = 300;
         float jumpForce = 1000f;
@@ -144,6 +164,11 @@ public class Player : MonoBehaviour
         }
         health = health - damage;
         healthBar.value = health;
+
+        if (IsDead())
+        {
+            Die();
+        }
     }
 
     bool IsInvincible()
@@ -174,5 +199,21 @@ public class Player : MonoBehaviour
             invincible = false;
         }
 
+    }
+
+    bool IsDead()
+    {
+        return health <= 0;
+    }
+
+    private void Die()
+    {
+        Debug.Log("Die");
+        deathTime = Time.time;
+    }
+
+    bool AllowedToMove()
+    {
+        return !IsDead();
     }
 }
