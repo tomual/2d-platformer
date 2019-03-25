@@ -16,25 +16,36 @@ public class FollowingEnemy : Enemy
         base.Awake();
         weapon = transform.Find("EnemyWeapon").gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
+        health = 2;
     }
 
     void Update()
     {
-        UpdateDirection();
+        
     }
 
     private void FixedUpdate()
     {
-        if (!IsPlaying("attack"))
+        if (AllowedToMove())
         {
-            float distance = Vector3.Distance(transform.position, player.transform.position);
-            if (distance < 0.8)
+            UpdateDirection();
+            if (!IsPlaying("attack"))
             {
-                Attack();
-            } else
-            {
-                Move();
+                float distance = Vector3.Distance(transform.position, player.transform.position);
+                if (distance < 0.8)
+                {
+                    Attack();
+                }
+                else
+                {
+                    Move();
+                }
             }
+        }
+        else
+        {
+
+            animator.SetBool("Moving", false);
         }
         weapon.SetActive(IsPlaying("attack"));
     }

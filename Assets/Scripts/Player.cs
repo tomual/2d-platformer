@@ -72,10 +72,6 @@ public class Player : MonoBehaviour
             {
                 playerRigidbody.velocity = Vector3.zero;
             }
-            if (Time.time - deathTime > 0.1 && Time.time - deathTime < 0.12 && !IsPlaying("dead"))
-            {
-                animator.SetTrigger("Die");
-            }
             return;
         }
 
@@ -174,6 +170,7 @@ public class Player : MonoBehaviour
 
         if (IsDead())
         {
+            animator.SetTrigger("Die");
             Die();
         }
     }
