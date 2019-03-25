@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
@@ -32,5 +33,10 @@ public class UI : MonoBehaviour
     {
         fadeDeathScreen = true;
         deathScreen.SetActive(true);
+    }
+
+    public void RestartClick()
+    {
+        SceneManager.LoadScene("World1");
     }
 }
