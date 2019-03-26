@@ -9,6 +9,7 @@ TagManager:
   - DeathScreen
   - EndScreen
   - UIScript
+  - FadeScreen
   layers:
   - Default
   - TransparentFX
