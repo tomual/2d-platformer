@@ -9,6 +9,7 @@ public class Teleporter : MonoBehaviour
     float fadeScreenAlpha;
     bool fadeOutInProgress;
     GameObject fadeScreen;
+    public string destination;
 
     private void Start()
     {
@@ -25,21 +26,7 @@ public class Teleporter : MonoBehaviour
             Debug.Log(fadeScreenAlpha);
             if (!fadeOutInProgress)
             {
-                switch (SceneManager.GetActiveScene().name)
-                {
-                    case "World1":
-                        SceneManager.LoadScene("World2");
-                        break;
-                    case "World2":
-                        SceneManager.LoadScene("World3");
-                        break;
-                    case "World3":
-                        SceneManager.LoadScene("World4");
-                        break;
-                    default:
-                        SceneManager.LoadScene("World1");
-                        break;
-                }
+                SceneManager.LoadScene(destination);
             }
             else
             {
