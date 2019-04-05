@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class FollowingEnemy : Enemy
 {
-    float h = 0.5f;
-    float flipTimer = 0;
-    float flipTimeout = 1;
-    bool facingRight = true;
-    GameObject weapon;
-    GameObject player;
+    public float h = 0.5f;
+    public float flipTimer = 0;
+    public float flipTimeout = 1;
+    public bool facingRight = true;
+    public GameObject weapon;
+    public GameObject player;
 
     new void Awake()
     {
@@ -44,7 +44,6 @@ public class FollowingEnemy : Enemy
         }
         else
         {
-
             animator.SetBool("Moving", false);
         }
         weapon.SetActive(IsPlaying("attack"));
