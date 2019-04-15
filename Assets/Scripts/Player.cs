@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private Animator animator;
     private Rigidbody2D playerRigidbody;
     private bool facingRight = true;
+    private float attackStart = 0;
     private Transform groundCheck;
     private bool jump;
     private GameObject weapon;
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        UpdateWeapon();
         if (!AllowedToMove())
         {
             return;
@@ -48,6 +50,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1") && !IsPlaying("attack"))
         {
+            attackStart = Time.time;
             animator.SetTrigger("Attack");
         }
 
@@ -55,8 +58,6 @@ public class Player : MonoBehaviour
         {
             Blink();
         }
-
-        weapon.SetActive(IsPlaying("attack"));
     }
 
     private void FixedUpdate()
@@ -219,5 +220,17 @@ public class Player : MonoBehaviour
     bool AllowedToMove()
     {
         return !IsDead();
+    }
+
+    public void UpdateWeapon()
+    {
+        if (IsPlaying("attack") && Time.time - attackStart > 0.2)
+        {
+            weapon.SetActive(true);
+        }
+        else
+        {
+            weapon.SetActive(false);
+        }
     }
 }
