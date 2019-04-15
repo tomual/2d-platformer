@@ -7,6 +7,7 @@ public class FollowingEnemy : Enemy
     public float h = 0.5f;
     public float flipTimer = 0;
     public float flipTimeout = 1;
+    private float attackStart = 0;
     public bool facingRight = true;
     public GameObject weapon;
     public GameObject player;
@@ -21,13 +22,13 @@ public class FollowingEnemy : Enemy
 
     void Update()
     {
-        
     }
 
     private void FixedUpdate()
     {
         if (AllowedToMove())
         {
+            UpdateWeapon();
             UpdateDirection();
             if (!IsPlaying("attack"))
             {
@@ -46,7 +47,6 @@ public class FollowingEnemy : Enemy
         {
             animator.SetBool("Moving", false);
         }
-        weapon.SetActive(IsPlaying("attack"));
     }
 
     void Move()
@@ -97,6 +97,18 @@ public class FollowingEnemy : Enemy
 
     }
 
+    public void UpdateWeapon()
+    {
+        if (IsPlaying("attack") && Time.time - attackStart > 0.5)
+        {
+            weapon.SetActive(true);
+        }
+        else
+        {
+            weapon.SetActive(false);
+        }
+    }
+
     void Flip()
     {
         facingRight = !facingRight;
@@ -117,5 +129,6 @@ public class FollowingEnemy : Enemy
     {
         animator.SetTrigger("Attack");
         enemyRigidbody.velocity = new Vector2(0, enemyRigidbody.velocity.y);
+        attackStart = Time.time;
     }
 }

@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         groundCheck = transform.Find("GroundCheck");
         weapon = transform.Find("Weapon").gameObject;
-        health = 2;
+        health = 20;
         lastKnockback = -2;
         invincible = false;
         healthBar = GameObject.FindGameObjectWithTag("HealthSlider").GetComponent<Slider>();
