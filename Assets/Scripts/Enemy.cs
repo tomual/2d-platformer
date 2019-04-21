@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour
     public Material whiteMaterial;
     public float lastTookDamage;
     private float spriteAlpha;
+    public float attackStart;
+    public GameObject weapon;
+    public GameObject player;
 
     public void Awake()
     {
@@ -22,7 +25,10 @@ public class Enemy : MonoBehaviour
         whiteMaterial = Resources.Load<Material>("Materials/WhiteMaterial");
         health = 3;
         lastTookDamage = 0;
+        attackStart = 0;
         spriteAlpha = 1f;
+        weapon = transform.Find("EnemyWeapon").gameObject;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void LateUpdate()

@@ -7,16 +7,11 @@ public class FollowingEnemy : Enemy
     public float h = 0.5f;
     public float flipTimer = 0;
     public float flipTimeout = 1;
-    private float attackStart = 0;
     public bool facingRight = true;
-    public GameObject weapon;
-    public GameObject player;
 
     new void Awake()
     {
         base.Awake();
-        weapon = transform.Find("EnemyWeapon").gameObject;
-        player = GameObject.FindGameObjectWithTag("Player");
         health = 2;
     }
 
