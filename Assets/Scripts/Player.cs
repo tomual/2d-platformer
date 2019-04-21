@@ -76,6 +76,12 @@ public class Player : MonoBehaviour
             return;
         }
 
+        if (IsPlaying("attack"))
+        {
+            playerRigidbody.velocity = new Vector2(0, playerRigidbody.velocity.y);
+            return;
+        }
+
         float maxSpeed = 2;
         float moveForce = 300;
         float jumpForce = 1000f;
