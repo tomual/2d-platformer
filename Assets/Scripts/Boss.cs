@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Boss : Enemy
 {
+    private float lastAction = 0;
+    private System.Random random;
     new void Awake()
     {
         base.Awake();
+        random = new System.Random();
         weapon = transform.Find("EnemyWeapon").gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
         health = 2;
@@ -30,6 +33,32 @@ public class Boss : Enemy
         {
             animator.SetBool("Moving", false);
         }
+
+        if (Time.time - lastAction > 2)
+            {
+                lastAction = Time.time;
+                int mode = random.Next(1, 4);
+
+                switch(mode)
+                {
+                    case 1:
+                        Summon();
+                        break;
+                    case 2:
+                        Stomp();
+                        break;
+                }
+            }
+    }
+
+    public void Summon()
+    {
+        Debug.Log("Summon");
+    }
+
+    public void Stomp()
+    {
+        Debug.Log("Stomp");
     }
 
     public void UpdateWeapon()
