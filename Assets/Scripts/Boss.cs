@@ -20,14 +20,6 @@ public class Boss : Enemy
         if (AllowedToMove())
         {
             UpdateWeapon();
-            if (!IsPlaying("attack"))
-            {
-                float distance = Vector3.Distance(transform.position, player.transform.position);
-                if (distance < 3)
-                {
-                    Attack();
-                }
-            }
         }
         else
         {
@@ -42,9 +34,12 @@ public class Boss : Enemy
                 switch(mode)
                 {
                     case 1:
-                        Summon();
+                        Attack();
                         break;
                     case 2:
+                        Summon();
+                        break;
+                    case 3:
                         Stomp();
                         break;
                 }
@@ -53,11 +48,13 @@ public class Boss : Enemy
 
     public void Summon()
     {
+        animator.SetTrigger("Summon");
         Debug.Log("Summon");
     }
 
     public void Stomp()
     {
+        animator.SetTrigger("Stomp");
         Debug.Log("Stomp");
     }
 
