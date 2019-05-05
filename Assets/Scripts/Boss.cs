@@ -23,7 +23,7 @@ public class Boss : Enemy
         }
         else
         {
-            animator.SetBool("Moving", false);
+            return;
         }
 
         if (Time.time - lastAction > 2)
