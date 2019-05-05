@@ -6,6 +6,8 @@ public class Boss : Enemy
 {
     private float lastAction = 0;
     private System.Random random;
+    public Rigidbody2D minion;
+    Rigidbody2D minionInstance;
     new void Awake()
     {
         base.Awake();
@@ -37,7 +39,12 @@ public class Boss : Enemy
                         Attack();
                         break;
                     case 2:
-                        Summon();
+                        if (MinionCount() == 0)
+                        {
+                            Summon();
+                            break;
+                        }
+                        Attack();
                         break;
                     case 3:
                         Stomp();
@@ -49,6 +56,9 @@ public class Boss : Enemy
     public void Summon()
     {
         animator.SetTrigger("Summon");
+        Vector3 position = new Vector3(transform.position.x - 10f, transform.position.y + 4f, transform.position.z);
+        minionInstance = Instantiate(minion, position, Quaternion.Euler(new Vector3(0,0,0))) as Rigidbody2D;
+
         Debug.Log("Summon");
     }
 
@@ -68,6 +78,11 @@ public class Boss : Enemy
         {
             weapon.SetActive(false);
         }
+    }
+
+    int MinionCount()
+    {
+        return FindObjectsOfType<FollowingEnemy>().Length;
     }
 
     void Attack()
