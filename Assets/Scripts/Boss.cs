@@ -6,6 +6,7 @@ public class Boss : Enemy
 {
     private float lastAction = 0;
     private System.Random random;
+    public Rigidbody2D fallingDanger;
     public Rigidbody2D minion;
     Rigidbody2D minionInstance;
     new void Awake()
@@ -14,7 +15,7 @@ public class Boss : Enemy
         random = new System.Random();
         weapon = transform.Find("EnemyWeapon").gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
-        health = 2;
+        health = 1;
     }
 
     private void FixedUpdate()
@@ -32,8 +33,8 @@ public class Boss : Enemy
             {
                 lastAction = Time.time;
                 int mode = random.Next(1, 4);
-
-                switch(mode)
+            
+                switch (mode)
                 {
                     case 1:
                         Attack();
@@ -50,7 +51,7 @@ public class Boss : Enemy
                         Stomp();
                         break;
                 }
-            }
+        }
     }
 
     public void Summon()
@@ -66,6 +67,13 @@ public class Boss : Enemy
     {
         animator.SetTrigger("Stomp");
         Debug.Log("Stomp");
+        for (int i = 0; i < 4; i++)
+        {
+            float distance = Random.Range(1.5f, 3.0f);
+            float x = i * distance + 1.5f;
+            Vector3 position = new Vector3(transform.position.x - x, transform.position.y + 5f, transform.position.z);
+            Rigidbody2D fallingDangerInstance = Instantiate(fallingDanger, position, Quaternion.Euler(new Vector3(0, 0, 0))) as Rigidbody2D;
+        }
     }
 
     public void UpdateWeapon()

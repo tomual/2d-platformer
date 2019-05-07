@@ -145,7 +145,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "EnemyWeapon" && !IsInvincible())
+        if ((collision.gameObject.name == "EnemyWeapon" || collision.gameObject.tag == "FallingDanger") && !IsInvincible())
         {
             TakeDamage(collision.gameObject, 1);
         }

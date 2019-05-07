@@ -1850,6 +1850,8 @@ MonoBehaviour:
   attackStart: 0
   weapon: {fileID: 0}
   player: {fileID: 0}
+  fallingDanger: {fileID: 8262790103268874020, guid: f040a5e11c93a7347915ea9115cacc87,
+    type: 3}
   minion: {fileID: 7099974404784407116, guid: 8547d70dfe550b84ebb5753b8e7571d3, type: 3}
 --- !u!212 &2049023793
 SpriteRenderer:
