@@ -11,6 +11,7 @@ TagManager:
   - UIScript
   - FadeScreen
   - FallingDanger
+  - MapEdge
   layers:
   - Default
   - TransparentFX

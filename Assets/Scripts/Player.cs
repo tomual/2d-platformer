@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     bool invincible;
     Slider healthBar;
     float deathTime;
+    private Camera cameraController;
 
     UI ui;
 
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
         lastKnockback = -2;
         invincible = false;
         healthBar = GameObject.FindGameObjectWithTag("HealthSlider").GetComponent<Slider>();
+        cameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         healthBar.maxValue = health;
         healthBar.value = health;
     }
@@ -148,6 +150,19 @@ public class Player : MonoBehaviour
         if ((collision.gameObject.name == "EnemyWeapon" || collision.gameObject.tag == "FallingDanger") && !IsInvincible())
         {
             TakeDamage(collision.gameObject, 1);
+        }
+
+        if (collision.gameObject.tag == "MapEdge")
+        {
+            cameraController.SetCameraStop(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "MapEdge")
+        {
+            cameraController.SetCameraStop(false);
         }
     }
 
