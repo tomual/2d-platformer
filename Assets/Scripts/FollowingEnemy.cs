@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class FollowingEnemy : Enemy
 {
+    [HideInInspector]
     public float h = 0.5f;
+    [HideInInspector]
     public float flipTimer = 0;
+    [HideInInspector]
     public float flipTimeout = 1;
+    [HideInInspector]
     public bool facingRight = true;
 
     new void Awake()

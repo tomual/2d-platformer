@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [HideInInspector]
     public int health;
+    [HideInInspector]
     public Rigidbody2D enemyRigidbody;
+    [HideInInspector]
     public Animator animator;
+    [HideInInspector]
     public SpriteRenderer sprite;
+    [HideInInspector]
     public Material defaultMaterial;
+    [HideInInspector]
     public Material whiteMaterial;
+    [HideInInspector]
     public float lastTookDamage;
+    [HideInInspector]
     private float spriteAlpha;
+    [HideInInspector]
     public float attackStart;
+    [HideInInspector]
     public GameObject weapon;
+    [HideInInspector]
     public GameObject player;
 
     public void Awake()
@@ -65,7 +76,6 @@ public class Enemy : MonoBehaviour
             --health;
             sprite.material = whiteMaterial;
             lastTookDamage = Time.time;
-            Debug.Log(health);
             
             if (IsDead())
             {
